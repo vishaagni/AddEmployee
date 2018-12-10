@@ -1,0 +1,76 @@
+h2{
+  text-align:center;
+  color: rgb(61, 126, 150);
+
+}
+
+h1{
+  text-align:center;
+  color: rgb(61, 126, 150);
+
+}
+
+.f {
+  padding-top:30px;
+  padding-bottom:30px;
+  height:30px;
+  line-height:30px;
+  border:solid 1px gray;
+  background-color: lightblue;
+  color: rgb(59, 59, 151);
+
+}
+
+.h {
+  padding-top:30px;
+  padding-bottom:30px;
+  height:30px;
+  line-height:30px;
+  border:solid 1px gray;
+  background-color: lightblue;
+  color: rgb(59, 59, 151);
+}
+
+.EmpData{
+  position:fixed;
+  top: 50%;
+  left: 50%;
+  width:30em;
+  margin-top: -9em; /*set to a negative number 1/2 of your height*/
+  margin-left: -15em; /*set to a negative number 1/2 of your width*/
+  border: 1px solid #ccc;
+  background-color: #f3f3f3;
+}
+
+.middle {
+  
+  height:500px;
+  overflow-y:auto;
+  border:solid 1px #E5E5E5;
+  background-color: rgb(213, 221, 228)
+
+}
+
+
+.n{
+  float:left;
+  background-color:rgb(97, 97, 221);
+ height:500px;
+width:1045px}
+
+.split1{
+  float:right;
+  
+  background-color:rgb(151, 151, 173);
+  height:500px;
+width:318px
+
+}
+
+.b{
+  position: 'absolute';
+  text-align:center;
+
+    bottom:200;
+    left:500;
+}

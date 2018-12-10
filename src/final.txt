@@ -1,0 +1,505 @@
+paclage.jspm===========
+
+
+{
+  "name": "employee",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cors": "^2.8.5",
+    "csvtojson": "^2.0.8",
+    "json2csv": "^4.3.1",
+    "querystring": "^0.2.0",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.1",
+    "react-split": "^2.0.4",
+    "referrer-policy": "^1.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://localhost:5000/",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
+
+
+
+
+addEmp================
+
+import ReactDOM from 'react-dom';
+import React from 'react';
+import axios from 'axios';
+import querystring from 'querystring';
+import Split from 'react-split'
+
+
+export default class addEmp extends React.Component {
+    constructor(props) {
+      super(props);
+      // Default null value
+      this.state = {Name: '',
+      Designation: '', Salary: ''};
+
+   //Handles text change 
+      this.handleChangeN = this.handleChangeN.bind(this);
+      this.handleChangeD = this.handleChangeD.bind(this);
+      this.handleChangeS = this.handleChangeS.bind(this);
+
+  //Handles button click event
+  this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+  //Sets recent values to the components 
+    handleChangeN(event) {
+      const re = /^[a-zA-Z]*$/;
+
+      // if value is not blank, then test the regex
+  
+      if (event.target.value === '' || re.test(event.target.value)) {
+         this.setState({Name: event.target.value})
+      }
+      else{
+          alert("Please enter a valid Name");
+      }
+    
+    }
+
+    handleChangeD(event) {
+      const re = /^[a-zA-Z]*$/;
+
+      // if value is not blank, then test the regex
+  
+      if (event.target.value === '' || re.test(event.target.value)) {
+         this.setState({Designation: event.target.value})
+      }
+      else{
+          alert("Please enter a valid designation");
+
+      }
+    
+    }
+
+    handleChangeS(event) {
+      console.log(event.target.value);
+
+      const re = /^[0-9\b]+$/;
+
+      // if value is not blank, then test the regex
+  
+      if (event.target.value === '' || re.test(event.target.value)) {
+         this.setState({Salary: event.target.value})
+      }
+      else{
+          alert("Please enter a valid salary");
+      }
+    
+    }
+  
+    //An alert message for proper submition
+    handleSubmit(event) {
+      event.preventDefault();
+
+    var data = 
+            {
+             'Name': this.state.Name,
+             'Designation': this.state.Designation,
+             'Salary': this.state.Salary
+            };
+
+            axios.post('http://localhost:5000/addemp', querystring.stringify(data))
+            .then(res=>{console.log(res);
+            })
+            .catch(err=>{console.log(err);
+            })
+
+            window.location.assign("/");
+}
+    
+    render() {
+      return (
+        <div className= "EmpData">
+        <form className="NewEmp" method="POST"   onSubmit={this.handleSubmit}>
+         <input id = "Name" placeholder = "Employee Name" onChange={this.handleChangeN} required/><br></br>
+         <input id = "Designation" placeholder = "Employee Designation" onChange={this.handleChangeD} required/><br></br>
+         <input id = "Salary" placeholder = "Employee Salary" onChange={this.handleChangeS} required/><br></br><br></br>
+         <input type="submit" value="Submit"/>
+        </form>
+        </div>
+      )
+    }
+  }
+  
+  ReactDOM.render(
+    <addEmp />,
+    document.getElementById('root')
+  );
+
+
+App.css==============
+
+h2{
+  text-align:center;
+  color: rgb(61, 126, 150);
+
+}
+
+h1{
+  text-align:center;
+  color: rgb(61, 126, 150);
+
+}
+
+.f {
+  padding-top:30px;
+  padding-bottom:30px;
+  height:30px;
+  line-height:30px;
+  border:solid 1px gray;
+  background-color: lightblue;
+  color: rgb(59, 59, 151);
+
+}
+
+.h {
+  padding-top:30px;
+  padding-bottom:30px;
+  height:30px;
+  line-height:30px;
+  border:solid 1px gray;
+  background-color: lightblue;
+  color: rgb(59, 59, 151);
+}
+
+.EmpData{
+  position:fixed;
+  top: 50%;
+  left: 50%;
+  width:30em;
+  margin-top: -9em; /*set to a negative number 1/2 of your height*/
+  margin-left: -15em; /*set to a negative number 1/2 of your width*/
+  border: 1px solid #ccc;
+  background-color: #f3f3f3;
+}
+
+.middle {
+  
+  height:500px;
+  overflow-y:auto;
+  border:solid 1px #E5E5E5;
+  background-color: rgb(213, 221, 228)
+
+}
+
+
+.n{
+  float:left;
+  background-color:rgb(97, 97, 221);
+ height:500px;
+width:1045px}
+
+.split1{
+  float:right;
+  
+  background-color:rgb(151, 151, 173);
+  height:500px;
+width:318px
+
+}
+
+.b{
+  position: 'absolute';
+  text-align:center;
+
+    bottom:200;
+    left:500;
+}
+
+
+App.js===================
+
+
+import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import addEmp from './addEmp'; 
+import Head from './Head';
+import Foot from './Foot';
+import './App.css';
+import Split from 'react-split'
+
+
+
+class App extends Component {
+  // initially data is empty in state
+  state = { data: [] };
+
+  componentDidMount() {
+
+    fetch('http://localhost:5000/')
+      // when we get a response map the body to json
+      .then(response => response.json())
+      // and update the state data to said json
+      .then(data => this.setState({ data }));
+  }
+
+  // dispalying the table of JSON values
+  renderTable = () =>
+  { 
+    return this.state.data.map(Employee =>{
+      return (
+      
+        <table>
+        <tr>
+          <td>{Employee.Name}</td>
+          <td>{Employee.Designation}</td>
+          <td>{Employee.Salary}</td>
+        </tr>
+        </table>
+        
+      )
+    })
+  }
+
+NewPage()
+{
+
+     ReactDOM.render(<addEmp /> ,document.getElementById('Table'));
+}
+
+
+  render() {
+    return (
+      //rendering the generated table
+        <div>
+          <Head />
+          <Split sizes={[25, 75]}>
+              <nav />
+       <Router>
+       <div className = "middle">
+       <br></br>
+       <h1>Employee details</h1>
+       <br></br>
+        <table id = "Table" border="1" align= "center"> 
+        {this.state && this.state.data && this.renderTable()}
+        </table>
+<Link to= {'/addemp'}><button id = "b" onClick= {this.NewPage}>Add employee</button></Link>
+<Switch>
+  <Route exact path='/addemp' component={addEmp}/>
+</Switch>
+</div>
+</Router>
+</Split>
+<Foot />
+</div>
+    );
+  }
+}
+ 
+export default App;
+
+
+Foot.js=================
+
+import React from 'react'
+
+export default class Foot extends React.Component {
+
+render(){
+    return(
+        <div className = "f">
+        <h2> www.producthorizons.com
+        </h2></div>
+    );
+  }
+
+}
+
+
+Head.js================
+
+
+import React from 'react'
+
+export default class Head extends React.Component {
+
+//const Head = () => ( <h2> Welcome admin..!! </h2> );
+
+render(){
+    return(
+        <div className = "h">
+        <h2> Welcome admin..!! </h2>
+        </div>
+       // this.Head;
+    );
+  }
+
+}
+//export default Head;
+
+
+nav.js==================
+
+import React from 'react'
+
+export default class nav extends React.Component {
+
+render(){
+    return(
+        <div className = "n">
+        <h2> nav
+        </h2></div>
+    );
+  }
+
+}
+
+-------------------------------------------------
+
+data.csv===============
+
+LS,des2,80000
+TS,des3,60000
+VB,des2,200000
+PB,des1,180000
+AB,des3,160000
+ER,des4,876543
+sidhant,HR,233
+sample,HR,23
+g,j,h
+ghjk,hjk,hjk
+ghjk,hjk,hjk
+ghjk,hjk,hjk
+ooo,ooo,ooo
+dddd,dddd,ddddd
+c,c,d
+E,E,E
+D,D,D
+e,e,e
+dd,dd,dd
+x,x,x
+qq,qq,qq
+d,d,d
+d,d,dddd
+x,x,x
+a,a,a
+bvc,cx,cx
+sa,aa,aa
+ss,ss,ss
+qq,qq,qq
+eeeee,eeeeee,2345
+www,www,345
+,,456
+,,543
+vcx,vcx,543
+qq,qq,455
+a,aa,2
+aa,s,1
+x,x,2
+dgf,dss,234
+gfd,gfd,543
+gfds,fds,5432
+vhjkm,gbrs,3425
+gfd,fd,432
+fds,fds,567
+fd,d,43
+hgf,hgf,5
+jhf,yfg,53
+jhgf,hgfd,
+f,fgfds,543
+r,t,4
+
+
+server.js=====================
+
+var express = require("express");
+var bodyParser = require("body-parser");
+var app = express();
+var csv = require('csv');
+var obj = csv();
+
+var http = require('http');
+var fs=require('fs');
+var json2csv = require('json2csv').parse;
+var cors = require('cors');
+
+function Employee(eno, ename, sal)
+{       
+    this.Name = eno;
+    this.Designation = ename;
+    this.Salary = sal;
+};
+
+var Employees = [];
+
+obj.from.path('../serverSide/data.csv').to.array(function (data) {
+    for (var index = 0; index <  data.length; index++) {
+        Employees.push(new Employee(data[index][0], data[index][1], data[index][2] ));
+    }
+    console.log(Employees);
+});
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(cors())
+
+app.get("/", function(req, res, next) {
+  res.send(Employees);
+});
+
+
+app.post('/addemp', function(request, response){
+    var fields = ['Name', 'Designation', 'Salary'];
+    console.log(request.body);
+
+var appendThis =  "\n"+request.body.Name+","+request.body.Designation+","+request.body.Salary
+
+console.log(csv);
+    fs.appendFile('data.csv', appendThis, function (err) {
+        if (err) throw err;
+        console.log('The "data to append" was appended to file!');
+        response.send("Added Successfully");
+    });
+    console.log(request.body);
+});
+
+var port = 5000;
+app.listen(port, () =>
+    console.log("Server started on port  "+port)
+);
+
+
+
+
+package.json==================
+
+{
+  "name": "server_emp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
+
+
